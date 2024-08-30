@@ -25,7 +25,7 @@ impl Orderbook {
                 let price = Price::new(price);
                 match self.bids.get_mut(&price) {
                     Some(limit) => {
-                        println!("Limit exists");
+                    limit.add_order(order)
                     }
                     None => {
                         let mut limit = Limit::new(price);
