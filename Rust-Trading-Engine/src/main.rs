@@ -53,11 +53,10 @@ impl Order {
 }
 
 fn main() {
-    let price = Price::new(50.5);
-    println!("{:?}", price);
-
-    let limit = Limit::new(65.3);
+    let mut limit = Limit::new(65.0);
+    let buy_order = Order::new(BidOrAsk::Bid, 5.5);
+    let sell_order = Order::new(BidOrAsk::Ask, 2.45);
+    limit.add_order(buy_order);
+    limit.add_order(sell_order);
     println!("{:?}", limit);
-
-    
 }
