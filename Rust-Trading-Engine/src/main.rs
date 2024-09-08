@@ -23,6 +23,8 @@ fn main() {
     engine.add_new_market(pair.clone());
 
     let buy_order = Order::new(BidOrAsk::Bid, 6.5);
-    engine.place_limit_order(pair, 10.000, buy_order);
+    let  eth_pair = TradingPair::new("ETH".to_string(), "USDT".to_string());
+    engine.place_limit_order(pair, 10.000, buy_order).unwrap();
+    // engine.place_limit_order(eth_pair, 10.000, buy_order).unwrap();
 
 }
