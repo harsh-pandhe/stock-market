@@ -74,6 +74,16 @@ impl Limit {
             orders: Vec::new(),
         }
     }
+
+    fn total_volume(&self) -> f64 {
+        return self
+        .orders
+        .iter()
+        .map(|order| order.size)
+        .reduce(|a, b| a + b)
+        .unwrap();
+    }
+
     fn fill_order(&mut self, market_order: &mut Order) {
         for limit_order in self.orders.iter_mut() {
             match market_order.size >= limit_order.size {
@@ -114,6 +124,18 @@ impl Order {
 #[cfg(test)]
 pub mod tests {
     use super::*;
+
+    #[test]
+    fn limit_total_volume() {
+        let Price = Price::new(10000.0);
+        let mut limit = Limit::new(Price);
+        let buy_limit_order_a = Order::new(BidOrAsk::Bid, 100.0);
+        let buy_limit_order_b = Order::new(BidOrAsk::Bid, 100.0);
+
+        limit.add_order(buy_limit_order_a);
+        limit.add_order(buy_limit_order_b);
+        assert_eq!(limit.total_volume(), 200.0);
+    }
 
     #[test]
     fn limit_order_multi_fill() {
