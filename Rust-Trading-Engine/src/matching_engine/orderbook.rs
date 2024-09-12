@@ -19,6 +19,29 @@ impl Orderbook {
             bids: HashMap::new(),
         }
     }
+
+    pub fn fill_market_order(&mut self, market_order: &mut Order) {
+        match market_order.bid_or_ask {
+            BidOrAsk::Bid => {
+                for limit_order in self.ask_limits() {
+                    limit_order.fill_order(market_order);
+                    if market_order.is_filled() {
+                        break;
+                    }
+                }
+            }
+            BidOrAsk::Ask => {}
+        }
+    }
+
+    pub fn ask_limits(&mut self) -> Vec<&mut Limit> {
+        self.asks.values_mut().collect::<Vec<&mut Limit>>()
+    }
+
+    pub fn bid_limits(&mut self) -> Vec<&mut Limit> {
+        self.bids.values_mut().collect::<Vec<&mut Limit>>()
+    }
+
     pub fn add_order(&mut self, price: f64, order: Order) {
         let price = Price::new(price);
         match order.bid_or_ask {
@@ -76,12 +99,11 @@ impl Limit {
     }
 
     fn total_volume(&self) -> f64 {
-        return self
-        .orders
-        .iter()
-        .map(|order| order.size)
-        .reduce(|a, b| a + b)
-        .unwrap();
+        self.orders
+            .iter()
+            .map(|order| order.size)
+            .reduce(|a, b| a + b)
+            .unwrap()
     }
 
     fn fill_order(&mut self, market_order: &mut Order) {
