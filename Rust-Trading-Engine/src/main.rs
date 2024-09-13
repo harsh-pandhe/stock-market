@@ -8,14 +8,14 @@ fn main() {
     let buy_order_from_harsh = Order::new(BidOrAsk::Bid, 2.45);
 
     let mut orderbook = Orderbook::new();
-    orderbook.add_order(dec!(4.4), buy_order_from_mihir);
-    orderbook.add_order(dec!(4.4), buy_order_from_harsh);
+    orderbook.add_limit_order(dec!(4.4), buy_order_from_mihir);
+    orderbook.add_limit_order(dec!(4.4), buy_order_from_harsh);
 
     let sell_order_from_mihir = Order::new(BidOrAsk::Ask, 5.5);
     let sell_order_from_harsh = Order::new(BidOrAsk::Ask, 2.45);
 
-    orderbook.add_order(dec!(4.4), sell_order_from_mihir);
-    orderbook.add_order(dec!(4.4), sell_order_from_harsh);
+    orderbook.add_limit_order(dec!(4.4), sell_order_from_mihir);
+    orderbook.add_limit_order(dec!(4.4), sell_order_from_harsh);
 
     // println!("{:?}", orderbook);
 
